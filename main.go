@@ -24,5 +24,9 @@ func main() {
 		c.HTML(http.StatusOK, "admin-overview.html", nil)
 	})
 
+	r.Static("/public", "./public")
+	//   or
+	// r.StaticFS("/public", http.Dir("./public"))
+
 	r.Run(":3000")
 }
