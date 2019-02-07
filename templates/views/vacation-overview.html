@@ -34,33 +34,23 @@
             <button class="btn primary" id="add">Add</button>
           </div>
         </div>
+
+        {{range .TimesOff}}  
         <div class="row col-lg-12">
-          <div class="col-lg-3">01-Jan</div>
-          <div class="col-lg-2">8</div>
-          <div class="col-lg-2">Holiday</div>
-          <div class="col-lg-2">Taken</div>
-          <div class="col-lg-3">
-            <button class="btn" disabled>Edit</button>
+          <div class="col-lg-3">{{.StartDate.Format "2-Jan"}}</div>
+          <div class="col-lg-2">{{.Amount}}</div>
+          <div class="col-lg-2">{{.Type}}</div>
+          <div class="col-lg-2">{{.Status}}</div>
+          <div class="col-lg-3"> 
+            <button class="btn primary-lighten-1"
+            {{if eq .Status "Taken"}}
+              disabled
+            {{end}}  
+            >Edit</button>
           </div>
         </div>
-        <div class="row col-lg-12">
-          <div class="col-lg-3">16-Aug ... 17-Aug</div>
-          <div class="col-lg-2">16</div>
-          <div class="col-lg-2">PTO</div>
-          <div class="col-lg-2">Scheduled</div>
-          <div class="col-lg-3">
-            <button class="btn primary-lighten-1">Edit</button>
-          </div>
-        </div>
-        <div class="row col-lg-12">
-          <div class="col-lg-3">07-Dec ... 08-Dec</div>
-          <div class="col-lg-2">16</div>
-          <div class="col-lg-2">PTO</div>
-          <div class="col-lg-2">Requested</div>
-          <div class="col-lg-3">
-            <button class="btn primary-lighten-1">Edit</button>
-          </div>
-        </div>
+        {{end}}
+         
       </div>
     </div>
 </div>
