@@ -57,6 +57,8 @@ func RegisterRoutes() *gin.Engine {
 		}
 		TimesOff[id] = append(timesOff, timeOff)
 
+		c.JSON(http.StatusCreated, &timeOff)
+
 	})
 
 	// http://localhost:3000/admin
