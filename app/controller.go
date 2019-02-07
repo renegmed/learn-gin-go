@@ -11,14 +11,38 @@ import (
 func RegisterRoutes() *gin.Engine {
 
 	r := gin.Default()
+	r.Use(loginMiddleware) // register the middleware
+
 	r.LoadHTMLGlob("templates/**/*.html")
 
-	r.GET("/", func(c *gin.Context) {
+	r.Any("/", func(c *gin.Context) { // Any to handle also the redirects
 		c.HTML(http.StatusOK, "index.html", nil)
 	})
 
 	// http://localhost:3000/login
-	r.GET("/login", func(c *gin.Context) {
+	r.Any("/login", func(c *gin.Context) {
+
+		employeeNumber := c.PostForm("employeeNumber")
+		password := c.PostForm("password")
+
+		for _, identity := range identities {
+			if identity.employeeNumber == employeeNumber &&
+				identity.password == password {
+				lc := loginCookie{
+					value:      employeeNumber,
+					expiration: time.Now().Add(24 * time.Hour),
+					origin:     c.Request.RemoteAddr,
+				}
+
+				loginCookies[lc.value] = &lc
+				maxAge := lc.expiration.Unix() - time.Now().Unix()
+				c.SetCookie(loginCookieName, lc.value, int(maxAge), "", "", false, true)
+
+				c.Redirect(http.StatusTemporaryRedirect, "/")
+
+				return
+			}
+		}
 		c.HTML(http.StatusOK, "login.html", nil)
 	})
 
