@@ -42,10 +42,34 @@ func RegisterRoutes() *gin.Engine {
 	}))
 
 	admin.GET("/", func(c *gin.Context) {
-		c.HTML(http.StatusOK, "admin-overview.html", nil)
+		c.HTML(http.StatusOK, "admin-overview.html",
+			map[string]interface{}{
+				"Employees": employees,
+			})
 	})
 
-	r.Static("/public", "../public")
+	admin.GET("/employees/:id", func(c *gin.Context) {
+		id := c.Param("id")
+		if id == "add" {
+			c.HTML(http.StatusOK, "admin-employee-add.html", nil)
+			return
+		}
+
+		employee, ok := employees[id]
+
+		if !ok {
+			c.String(http.StatusNotFound, "404 - Not Found")
+			return
+		}
+
+		c.HTML(http.StatusOK, "admin-employee-edit.html",
+			map[string]interface{}{
+				"Employee": employee,
+			})
+
+	})
+
+	//r.Static("/public", "../public")
 	//   or
 	// r.StaticFS("/public", http.Dir("./public"))
 
