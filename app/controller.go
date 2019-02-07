@@ -33,7 +33,7 @@ func RegisterRoutes() *gin.Engine {
 		}
 
 		c.HTML(http.StatusOK, "vacation-overview.html",
-			map[string]interface{}{
+			gin.H{
 				"TimesOff": timesOff,
 			})
 	})
@@ -66,7 +66,7 @@ func RegisterRoutes() *gin.Engine {
 
 	admin.GET("/", func(c *gin.Context) {
 		c.HTML(http.StatusOK, "admin-overview.html",
-			map[string]interface{}{
+			gin.H{
 				"Employees": employees,
 			})
 	})
@@ -86,7 +86,7 @@ func RegisterRoutes() *gin.Engine {
 		}
 
 		c.HTML(http.StatusOK, "admin-employee-edit.html",
-			map[string]interface{}{
+			gin.H{
 				"Employee": employee,
 			})
 
@@ -116,10 +116,6 @@ func RegisterRoutes() *gin.Engine {
 			c.Redirect(http.StatusMovedPermanently, "/admin/employees/42")
 		}
 	})
-
-	//r.Static("/public", "../public")
-	//   or
-	// r.StaticFS("/public", http.Dir("./public"))
 
 	return r
 }
