@@ -1,6 +1,7 @@
 package app
 
 import (
+	"fmt"
 	"net/http"
 	"time"
 
@@ -46,6 +47,7 @@ func RegisterRoutes() *gin.Engine {
 			return
 		}
 
+		fmt.Printf("+++++ timeOff: %v\n", timeOff)
 		id := c.Param("id")
 
 		timesOff, ok := TimesOff[id]

@@ -7,6 +7,7 @@
     rowData.actionButton.addEventListener('click', function save() {
       rowData.actionButton.removeEventListener('click', save);
 
+      console.log("++++++ rowData.hours.value ", parseFloat(rowData.hours.value));
       var payload = {
         startDate: new Date(rowData.startDate.value),
         hours: parseFloat(rowData.hours.value) || 0,
@@ -16,9 +17,10 @@
 
       var xhr = new XMLHttpRequest();
       xhr.open("post", location.pathname + "/new")
+      console.log("++++++ JSON.stringify(payload) ", JSON.stringify(payload));
       xhr.send(JSON.stringify(payload));
 
-
+      
       rowData.row.parentElement.removeChild(rowData.row);
 
     }, false);
