@@ -37,6 +37,26 @@ func RegisterRoutes() *gin.Engine {
 			})
 	})
 
+	r.POST("/employees/:id/vacation/new", func(c *gin.Context) {
+		var timeOff TimeOff
+		err := c.BindJSON(&timeOff)
+
+		if err != nil {
+			c.String(http.StatusBadRequest, err.Error())
+			return
+		}
+
+		id := c.Param("id")
+
+		timesOff, ok := TimesOff[id]
+
+		if !ok {
+			TimesOff[id] = []TimeOff{} // create a slice since TimesOff[id] is non-existent
+		}
+		TimesOff[id] = append(timesOff, timeOff)
+
+	})
+
 	// http://localhost:3000/admin
 	admin := r.Group("/admin", gin.BasicAuth(gin.Accounts{
 		"admin": "admin",
@@ -94,6 +114,7 @@ func RegisterRoutes() *gin.Engine {
 			c.Redirect(http.StatusMovedPermanently, "/admin/employees/42")
 		}
 	})
+
 	//r.Static("/public", "../public")
 	//   or
 	// r.StaticFS("/public", http.Dir("./public"))
